@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SCASE FEUD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #category {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #query {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        #guesses {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #score {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            font-size: 24px;
+            padding: 10px;
+            width: 300px;
+        }
+        input[type="submit"] {
+            font-size: 24px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body bgcolor = "grey">
+    <h1>Scase Feud</h1>
+    <div id="category"></div>
+    <div id="query"></div>
+    <div id="guesses"></div>
+    <div id="score"></div>
+    <form onsubmit="submitGuess(); return false;">
+        <input type="text" id="guess" placeholder="Enter your guess">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        let categories = ["Question"];
+        let category = "";
+        let query = "";
+        let answers = [];
+        let guesses = [];
+        let score = 0;
+
+        function newRound() {
+            category = categories[Math.floor(Math.random() * categories.length)];
+            document.getElementById("category").innerHTML = "Category: " + category;
+
+            // TODO: generate query and answers based on category
+            query = "What things do parents need the most";
+            answers = ["safety of family", "employment", "supportive partner", "healthcare", "food",];
+            
+            document.getElementById("query").innerHTML = query;
+            guesses = [];
+            updateGuesses();
+        }
+
+        function updateGuesses() {
+            let guessesText = "Guesses:<br>";
+            for (let i = 0; i < guesses.length; i++) {
+                guessesText += (i + 1) + ". " + guesses[i] + "<br>";
+            }
+            document.getElementById("guesses").innerHTML = guessesText;
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById("score").innerHTML = "Score: " + score;
+        }
+
+        function submitGuess() {
+            let guess = document.getElementById("guess").value.trim().toLowerCase();
+            document.getElementById("guess").value = "";
+
+            if (guess === "") return;
+
+            if (answers.includes(guess)) {
+                let index = answers.indexOf(guess);
+                let points = (10 - index) * 1000;
+                updateScore(points);
+                guesses.push(guess + " (+" + points + ")");
+                updateGuesses();
+                if (guesses.length === answers.length) newRound();
+            } else {
+                guesses.push(guess + " (X)");
+                updateGuesses();
+                if (guesses.filter(g => g.endsWith("(X)")).length === 3) newRound();
+            }
+        }
+
+        newRound();
+    </script>
+</body>
+</html>
