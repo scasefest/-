@@ -5,6 +5,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: grey;
+        }
+        #game-container {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         #category {
             font-size: 24px;
@@ -33,16 +46,21 @@
         }
     </style>
 </head>
-<body bgcolor = "grey">
-    <h1>Scase Feud</h1>
-    <div id="category"></div>
-    <div id="query"></div>
-    <div id="guesses"></div>
-    <div id="score"></div>
-    <form onsubmit="submitGuess(); return false;">
-        <input type="text" id="guess" placeholder="Enter your guess">
-        <input type="submit" value="Submit">
-    </form>
+<body>
+    <div id="game-container">
+        <h1>Scase Feud</h1>
+        <div id="category"></div>
+        <div id="query"></div>
+        <div id="guesses">
+            <p>Answers:</p>
+            <ul id="answer-list"></ul>
+        </div>
+        <div id="score"></div>
+        <form onsubmit="submitGuess(); return false;">
+            <input type="text" id="guess" placeholder="Enter your guess">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
     <script>
         let categories = ["Question"];
         let category = "";
@@ -57,9 +75,10 @@
 
             // TODO: generate query and answers based on category
             query = "What things do kids want the most";
-            answers = ["pets", "mobile", "clothes", "computer", "cycle", "sneakers",];
+            answers = ["pets", "mobile", "clothes", "computer", "cycle", "sneakers"];
             
             document.getElementById("query").innerHTML = query;
+            updateAnswers(); // Call the function to display answers
             guesses = [];
             updateGuesses();
         }
@@ -70,6 +89,16 @@
                 guessesText += (i + 1) + ". " + guesses[i] + "<br>";
             }
             document.getElementById("guesses").innerHTML = guessesText;
+        }
+
+        function updateAnswers() {
+            let answerList = document.getElementById("answer-list");
+            answerList.innerHTML = "";
+            for (let i = 0; i < answers.length; i++) {
+                let answerItem = document.createElement("li");
+                answerItem.textContent = answers[i];
+                answerList.appendChild(answerItem);
+            }
         }
 
         function updateScore(points) {
@@ -93,7 +122,7 @@
             } else {
                 guesses.push(guess + " (X)");
                 updateGuesses();
-                if (guesses.filter(g => g.endsWith("(X)")).length === 3) newRound();
+                if (guesses.filter(g => g.endsWith("(X)")).length === 5) newRound();
             }
         }
 
@@ -101,3 +130,4 @@
     </script>
 </body>
 </html>
+	
