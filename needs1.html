@@ -57,8 +57,8 @@
         </div>
         <div id="score"></div>
         <form onsubmit="submitGuess(); return false;">
-            <input type="text" id="guess" placeholder="Enter your guess" autocomplete= "off">
-            <input type="submit" value="Submit"  autocomplete= "off">
+            <input type="text" id="guess" placeholder="Enter your guess" autocomplete="off">
+            <input type="submit" value="Submit" autocomplete="off">
         </form>
     </div>
     <script>
@@ -75,7 +75,7 @@
 
             // TODO: generate query and answers based on category
             query = "What things do kids need the most";
-            answers = ["education", "study", "books", "family", "friends", "food", "protection", "safety", "security",  "LOVE", "physical activities", "physical games",  "hygiene", "health care", "guidance"];
+            answers = ["education", "game", "games", "fun", "entertainment", "study", "books", "family", "friends", "food", "protection", "safety", "security",  "LOVE", "physical activities", "physical games",  "hygiene", "health care", "guidance"];
             
             document.getElementById("query").innerHTML = query;
             updateAnswers(); // Call the function to display answers
@@ -113,8 +113,7 @@
             if (guess === "") return;
 
             if (answers.includes(guess)) {
-                let index = answers.indexOf(guess);
-                let points = (10 - index) * 1000;
+                let points = 2000; // Set all correct answers to 2000 points
                 updateScore(points);
                 guesses.push(guess + " (+" + points + ")");
                 updateGuesses();
